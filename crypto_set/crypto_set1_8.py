@@ -14,7 +14,7 @@ import base64
 with open('8.txt') as f:
     hex_lines = [line.strip() for line in f.readlines()]
     
-line_blocks = [chunks(line, 16) for line in hex_lines]
+line_blocks = [chunks(line, 32) for line in hex_lines]
 
 #Inspect lines to see how many times their blocks repeat
 line_repetitions = []
