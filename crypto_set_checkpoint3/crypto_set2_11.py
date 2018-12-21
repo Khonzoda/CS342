@@ -44,8 +44,8 @@ def detect_mode(cipher_text):
     #We need to find a spot in the text such that blocks match
     block1 = cipher_text[16:32]
     block2 = cipher_text[32:48]
-    print((block1))
-    print((block2))
+    #print((block1))
+    #print((block2))
     if block1 == block2:
         return "ECB"
     return "CBC"
