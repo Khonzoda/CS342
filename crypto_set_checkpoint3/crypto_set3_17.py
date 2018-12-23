@@ -129,8 +129,9 @@ if __name__ == '__main__':
     for string in strings:
         ciphertext = encrypt_CBC_mode(base64_to_str(string), secret_key, iv)
         try:
+            we_get = decrypt_ciphertext(ciphertext)
             print("Plaintext string:", decrypt_CBC_mode(ciphertext, secret_key, iv))
-            print("What we obtained:", decrypt_ciphertext(ciphertext))  
+            print("What we obtained:", we_get)  
         except:
             print("FAILED:", base64_to_str(string))
         print()
