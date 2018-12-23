@@ -30,6 +30,8 @@ strings = ["MDAwMDAwTm93IHRoYXQgdGhlIHBhcnR5IGlzIGp1bXBpbmc=",
     "MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93"]
 
 def encrypt_rand_str():
+    '''From the list above selects a random string and encrypts it under CBC 
+    mode'''
     #select random string from the list above
     rand_i = random.randint(0,len(strings)-1)
     random_str = strings[rand_i]
@@ -40,6 +42,8 @@ def encrypt_rand_str():
     
 
 def decrypt_and_check(ciphertext):
+    '''Decrypts a given ciphertext and checks its padding
+    '''
     plaintext = decrypt_CBC_mode(ciphertext, secret_key, iv)
     # print(plaintext)
     unpadded = unpad_PKCS7(plaintext)
@@ -73,10 +77,10 @@ def find_next_p_byte(prev_c_block, c_block, prev_i_bytes):
     prev_c_bytes = [byte^target_byte for byte in prev_i_bytes]
     
     for i in range(256):
-        # fake_c_block = generate_random(16-target_byte)+bytes([i]+prev_c_bytes)
+        #by iterating through all 256 bytes find an appropriate value for c_byte
         fake_c_block = b'a'*(16-target_byte)+bytes([i]+prev_c_bytes)
-        # print(c_block)
-        # print(fake_c_block)
+        
+        #check whether it results in a valid plaintext
         valid = decrypt_and_check(fake_c_block+c_block)
         if valid:
             c_byte = i
@@ -95,6 +99,10 @@ def find_next_p_byte(prev_c_block, c_block, prev_i_bytes):
     
     
 def decrypt_block(prev_c_block, c_block):
+    '''In order to decrypt a ciphertext block, we take the previous ciphertext
+    block and the current one. One after another we recover plaintext bytes
+    of this block and accumulate them.
+    '''
     p_bytes = []
     i_bytes = []
     for i in range(16):
@@ -106,6 +114,10 @@ def decrypt_block(prev_c_block, c_block):
  
  
 def decrypt_ciphertext(ciphertext):
+     '''Given a ciphertext, breaks it down into chunks of length 16 (keysize).
+     Starting from the second chunk decrypts it one by one and returns the
+     plaintext.
+     '''
      blocks = chunks(ciphertext, 16)
      #we don't know iv, so it is impossible to find the first blocksize of the 
      #text. In order to figure more of the text, we could potentially shrink 
