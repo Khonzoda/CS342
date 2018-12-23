@@ -10,7 +10,7 @@ import os
 
 ##-------------------------- Set 2 Challenge 15 ------------------------------##
 def unpad_PKCS7(plaintext,BLOCKSIZE=16):
-    print(plaintext)
+    #print(plaintext)
     remainder = len(plaintext) % BLOCKSIZE
     if remainder != 0:
         return "BAD padding"
